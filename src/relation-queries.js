@@ -1,4 +1,4 @@
-const { user, todoItem, todoList } = require("../models");
+const { user, todoItem, todoList, tag } = require("../models");
 
 async function listsWithUsers() {
   const lists = await todoList.findAll({
@@ -67,4 +67,50 @@ const getUserWithListsAndTasks = async () => {
   } catch (error) {}
 };
 
-getUserWithListsAndTasks();
+// getUserWithListsAndTasks();
+
+const findTodosWithTags = async () => {
+  try {
+    const findAllWithTags = await todoItem.findAll({ include: [tag] });
+    console.log(
+      "ALL USERS WITH TAGS",
+      findAllWithTags.map((item) => item.get({ plain: true }))
+    );
+    console.log("USER WITH TAG", findAllWithTags.map((item) => item.get({ plain: true }))[2].tags);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// findTodosWithTags();
+
+// ASYNC AWAIT
+
+const findTodosImportantWithTags = async () => {
+  try {
+    const findAllImportantTodos = await todoItem.findAll({
+      where: { important: true },
+      include: [{ model: tag }],
+    });
+
+    console.log(
+      "IMPORTANT TODOS WITH TAGS",
+      findAllImportantTodos.map((todo) => todo.get({ plain: true }))
+    );
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// findTodosImportantWithTags();
+
+// PROMISE CHAINING
+
+const findTodosWithTags2 = async () => {
+  const todosWithTags = await todoItem.findAll({});
+  return todosWithTags;
+};
+
+findTodosWithTags2()
+  .then((todos) => console.log(todos.map((todo) => todo.get({ plain: true }))))
+  .catch((error) => console.log(error.message));
