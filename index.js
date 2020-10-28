@@ -4,7 +4,7 @@ const User = require("./models").user;
 const TodoList = require("./models").todoList;
 const bodyParser = require("body-parser");
 
-// MIDDLEWARE WILL BE RUN FOR EACH REQUES
+// MIDDLEWARE WILL BE RUN FOR EACH REQUEST
 const loggingMiddleWare = (req, res, next) => {
   console.log(`request received at: ${new Date()}`);
   next();
