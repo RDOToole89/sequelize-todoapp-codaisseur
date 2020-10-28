@@ -3,6 +3,7 @@ const app = express();
 const User = require("./models").user;
 const TodoList = require("./models").todoList;
 const bodyParser = require("body-parser");
+const { Router } = require("express");
 
 // MIDDLEWARE WILL BE RUN FOR EACH REQUEST
 const loggingMiddleWare = (req, res, next) => {
@@ -174,6 +175,12 @@ app.delete("/users/:userId/todoLists/:todoListId", async (req, res, next) => {
     next(e);
   }
 });
+
+// const user = await User.findByPk(userId, { include: [TodoList] });
+// // validate user, etc
+// const listToDestroy = user.todoLists.find(list => list.id === todoListId)
+// if(!listToDestroy) return res.status(404).send("this user does not have this list")
+// await listToDestroy.destroy()
 
 app.get("/todoLists", async (req, res, next) => {
   try {
